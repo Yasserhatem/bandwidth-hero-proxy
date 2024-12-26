@@ -3,7 +3,7 @@ const redirect = require('./redirect');
 
 async function compress(req, res, input) {
   const format = req.params.webp ? 'webp' : 'jpeg';
-  const quality = req.params.quality || 80;
+  const quality = parseInt(req.params.quality) || 80;
 
   try {
     const image = await Jimp.read(input);
@@ -22,10 +22,9 @@ async function compress(req, res, input) {
     res.setHeader('content-length', output.length);
     res.setHeader('x-original-size', req.params.originSize);
     res.setHeader('x-bytes-saved', req.params.originSize - output.length);
-    res.status(200);
-    res.write(output);
-    res.end();
+    res.status(200).write(output).end();
   } catch (err) {
+    console.error('Error processing image:', err);
     redirect(req, res);
   }
 }

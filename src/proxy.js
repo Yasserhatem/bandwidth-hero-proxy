@@ -41,6 +41,3 @@ function proxy(req, res) {
 }
 
 module.exports = proxy;
-```
-
-This code is formatted and ready for use in your project.
